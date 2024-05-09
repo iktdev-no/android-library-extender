@@ -3,32 +3,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
-class Coroutines {
+@Suppress("MemberVisibilityCanBePrivate")
+abstract class Coroutines {
     companion object {
         private val _exception = MutableLiveData<Throwable>()
         val exception: LiveData<Throwable> = _exception
         val handler = CoroutinesExceptionHandler()
     }
-
-    /**
-     * Returns a new CoroutineScope with IO dispatcher and a Job, using the global CoroutinesExceptionHandler instance.
-     * This scope is appropriate for IO-bound tasks, such as reading or writing to files, network communication or database access.
-     *
-     * @return a CoroutineScope instance with the IO dispatcher and a Job
-     */
-    fun CoroutineIO() =  CoroutineScope(Dispatchers.IO + Job() + handler)
-
-    /**
-     * Returns a new CoroutineScope with Default dispatcher and a Job, using the global CoroutinesExceptionHandler instance.
-     * This scope is appropriate for CPU-bound tasks, such as sorting or filtering large data sets or performing complex calculations.
-     *
-     * @return a CoroutineScope instance with the Default dispatcher and a Job
-     */
-    fun Coroutine() =  CoroutineScope(Dispatchers.Default + Job() + handler)
 
     /**
      * A global exception handler that catches unhandled exceptions thrown in Coroutines and stores them in a LiveData instance.
@@ -61,4 +48,16 @@ class Coroutines {
             }
         }
     }
+
+    abstract fun <T> async(
+        context: CoroutineContext,
+        start: CoroutineStart,
+        block: suspend CoroutineScope.() -> T
+    ): Deferred<T>
+
+    abstract fun <T> launch(
+        context: CoroutineContext,
+        start: CoroutineStart,
+        block: suspend CoroutineScope.() -> T
+    ): Job
 }
