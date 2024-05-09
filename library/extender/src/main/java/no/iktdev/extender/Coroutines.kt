@@ -8,6 +8,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 @Suppress("MemberVisibilityCanBePrivate")
 abstract class Coroutines {
@@ -49,15 +50,13 @@ abstract class Coroutines {
         }
     }
 
-    abstract fun <T> async(
-        context: CoroutineContext,
-        start: CoroutineStart,
-        block: suspend CoroutineScope.() -> T
+    abstract fun <T> async(context: CoroutineContext = EmptyCoroutineContext,
+                           start: CoroutineStart = CoroutineStart.DEFAULT,
+                           block: suspend CoroutineScope.() -> T
     ): Deferred<T>
 
     abstract fun <T> launch(
-        context: CoroutineContext,
-        start: CoroutineStart,
-        block: suspend CoroutineScope.() -> T
-    ): Job
+        context: CoroutineContext = EmptyCoroutineContext,
+        start: CoroutineStart = CoroutineStart.DEFAULT,
+        block: suspend CoroutineScope.() -> T): Job
 }
