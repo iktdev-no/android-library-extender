@@ -12,7 +12,7 @@ class corDefault: Coroutines() {
      *
      * @return a CoroutineScope instance with the Default dispatcher and a Job
      */
-    val scope = CoroutineScope(Dispatchers.Default + Job() + handler)
+    val scope = CoroutineScope(Dispatchers.Default + Job() + handler + CoroutineName("CoroutinesDefault"))
 
 
     override fun <T> async(context: CoroutineContext, start: CoroutineStart, block: suspend CoroutineScope.() -> T): Deferred<T> {

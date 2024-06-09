@@ -12,7 +12,7 @@ class corIO: Coroutines() {
      *
      * @return a CoroutineScope instance with the IO dispatcher and a Job
      */
-    val scope = CoroutineScope(Dispatchers.IO + Job() + handler)
+    val scope = CoroutineScope(Dispatchers.IO + Job() + handler + CoroutineName("CoroutinesIO"))
 
 
     override fun <T> async(context: CoroutineContext, start: CoroutineStart, block: suspend CoroutineScope.() -> T): Deferred<T> {

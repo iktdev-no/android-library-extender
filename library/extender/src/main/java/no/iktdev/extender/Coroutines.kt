@@ -1,4 +1,5 @@
 package no.iktdev.extender
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -41,6 +42,8 @@ abstract class Coroutines {
                 cause = current.cause
                 current = current.cause!!
             }
+
+            Log.e("CoroutineException", "Unhandled exception in coroutine", exception)
 
             if (cause != null) {
                 _exception.postValue(cause)
