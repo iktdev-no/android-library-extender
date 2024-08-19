@@ -49,7 +49,7 @@ afterEvaluate {
             release(MavenPublication) {
                 groupId "no.iktdev.android"
                 artifactId "extender"
-                version '0.0.1-alpha-8'
+                version '0.0.1-alpha-9'
 
                 artifact(bundleReleaseAar)
             }
